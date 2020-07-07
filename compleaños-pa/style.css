@@ -1,0 +1,98 @@
+body {
+  background: #4c4c4c;
+  background: -moz-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #4c4c4c), color-stop(0%, #1c1c1c), color-stop(0%, #666666), color-stop(0%, #595959), color-stop(0%, #474747), color-stop(100%, #131313));
+  background: -webkit-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+  background: -o-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+  background: -ms-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+  background: linear-gradient(to bottom, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4c4c4c", endColorstr="#131313", GradientType=0);
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+}
+body .container {
+  max-width: 700px;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  text-align: center;
+}
+body .container h1 {
+  color: white;
+  font-family: "Galada", cursive;
+  font-size: 40px;
+  font-weight: 100;
+  line-height: 50px;
+}
+body .container small {
+  font-family: "Dancing Script", cursive;
+  color: white;
+}
+body .container .play {
+  padding: 15px;
+  border: 3px solid #FFBF00;
+  border-radius: 15px;
+  height: 50vh;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+body .container .play .item {
+  border: 10px solid black;
+  background: white;
+  padding: 5px;
+}
+body .container .play .item #slot {
+  background: url("reel_normal.png") repeat-y;
+  height: 100%;
+  width: 86px;
+}
+body .container .play .item #slot-b {
+  background: url("reel_normal.png") repeat-y;
+  height: 100%;
+  width: 86px;
+  background-position: 0% 450px;
+}
+body .container .play .item #slot-c {
+  background: url("reel_normal.png") repeat-y;
+  height: 100%;
+  width: 86px;
+  background-position: 0% 225px;
+}
+body .container .play .item #resultado {
+  height: 26px;
+  width: 76px;
+  border: 1px solid #aaa;
+  padding: 2px 5px;
+}
+body .container .buttons {
+  display: flex;
+  height: 15vh;
+}
+body .container .buttons button {
+  outline: none;
+  background: #f1e767;
+  background: -moz-linear-gradient(left, #f1e767 0%, #f2d074 0%, #ffbf00 99%, #ffbf00 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #f1e767), color-stop(0%, #f2d074), color-stop(99%, #ffbf00), color-stop(100%, #ffbf00));
+  background: -webkit-linear-gradient(left, #f1e767 0%, #f2d074 0%, #ffbf00 99%, #ffbf00 100%);
+  background: -o-linear-gradient(left, #f1e767 0%, #f2d074 0%, #ffbf00 99%, #ffbf00 100%);
+  background: -ms-linear-gradient(left, #f1e767 0%, #f2d074 0%, #ffbf00 99%, #ffbf00 100%);
+  background: linear-gradient(to right, #f1e767 0%, #f2d074 0%, #ffbf00 99%, #ffbf00 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#f1e767", endColorstr="#ffbf00", GradientType=1 );
+  border: none;
+  width: 50%;
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  border-radius: 15px;
+  font-weight: bold;
+  font-family: "Acme", sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+body .container .buttons button:first-child {
+  margin-right: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */
