@@ -1,109 +1,284 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Abuelita</title>
     <link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Acme&family=Noto+Sans+SC:wght@100&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #4c4c4c;
+            background: -moz-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, #4c4c4c), color-stop(0%, #1c1c1c), color-stop(0%, #666666), color-stop(0%, #595959), color-stop(0%, #474747), color-stop(100%, #131313));
+            background: -webkit-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+            background: -o-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+            background: -ms-linear-gradient(top, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+            background: linear-gradient(to bottom, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4c4c4c", endColorstr="#131313", GradientType=0);
+            background-repeat: no-repeat;
+
+        }
+        h1 {
+            color: white;
+            font-family: "Galada", cursive;
+            font-size: 40px;
+            font-weight: 100;
+            line-height: 50px;
+            text-align: center;
+        }
+        main {
+            margin: 2rem;
+        }
+        #canvas {
+            width: 336px;
+            height: 335px;
+            margin: auto;
+            border: 1px solid gray;
+            background-color: black; }
+        #canvas #windiv {
+            display: none; }
+        #canvas .banner {
+            width: 370px;
+            font-size: 50px;
+            background-color: #f5f5dc;
+            position: relative;
+            text-align: center;
+            top: -60px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.55);
+            left: -15px;
+            z-index: 2; }
+        #canvas .innerSquare {
+            width: 110px;
+            height: 110px;
+            float: left; }
+        #canvas .innerSquare.imageSquare {
+            font-size: 24px;
+            text-align: center;
+            border: 1px outset  black; }
+        #canvas .innerSquare.imageSquare:hover {
+            background-color: lightgray; }
+        #canvas .innerSquare.clickable:hover {
+            opacity: 0.4;
+            filter: alpha(opacity=40); }
+        #canvas .innerSquare.blank {
+            border: 1px inset black; }
+
+        #previews {
+            width: 100%;
+            text-align: center;
+            height: auto;
+            overflow: hidden;
+            margin: auto;
+            margin-top: 10px;
+        }
+        #previews .mini {
+            width: 90px;
+            height: 90px;
+            margin-top: 5px;
+            margin-right: 5px; }
+
+    </style>
+
 </head>
 <body>
+<h1>Feliz Cumpleaños abuelita </h1>
+<main>
+    <div id="canvas"></div>
+    <div id="previews"></div>
+</main>
 
-<div class="container">
-    <h1>Feliz Cumpleaños Pá</h1>
-    <div class="play">
-        <div class="item">
-            <div id="slot"></div>
-<!--            <div id="resultado"></div>-->
-        </div>
-    </div>
-    <div class="buttons">
-        <button onclick="iniciar()" id="iniciar">Iniciar</button>
-        <button onclick="parar()" id="parar" disabled>Parar</button>
-    </div>
-    <small>Clan Cuellitar</small>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 <script>
-    // variable que contiene la posicion de la imagen
-    var contador=0;
+    (function() {
+        var Blank, Puzzle, Tile,
+            __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-    // variable que contiene la velocidad de movimiento
-    var velocidad=0;
-
-    // variable que incremente y decrementa la velocidad de la imagen
-    var incremento=0;
-
-    // variables que controlar los intervalor de tiempo
-    var interval1,interval2;
-
-    // creamos un array con las posiciones de los slots y el contenido de cada una
-    // Las posiciones empiezan de abajo hacia arriba, ya que el movimiento del slot va hacia abajo
-    var posicionFiguras={0:"naranja", 375:"siete", 300:"bar", 225:"pera", 150:"platano", 75:"cerezas"}
-
-    function iniciar() {
-        document.getElementById("iniciar").disabled=true;
-
-        // inicializalos los valores
-        incremento=velocidad=1;
-
-        // intervalo de tiempo en el que se ejecuta el movimiento
-        interval1=setInterval(function() {
-
-            // vamos modificando la posicion de la imagen de fondo para realizar el movimiento
-            document.getElementById("slot").style["background-position"]="0% "+contador+"px";
-
-            // si incremento es negativo, quiere decir que estamos parando la imagen
-            if(velocidad<100 || incremento<0) {
-                // incrementamos la velocidad de movimiento
-                velocidad=velocidad+incremento;
+        Puzzle = (function() {
+            function Puzzle(images) {
+                var i, image, t, x, y, _i, _j, _len, _ref,
+                    _this = this;
+                this.images = images;
+                this.changeImage = __bind(this.changeImage, this);
+                this.switchTwo = __bind(this.switchTwo, this);
+                this.renderBoard = __bind(this.renderBoard, this);
+                this.blankPosition = __bind(this.blankPosition, this);
+                this.checkIfWon = __bind(this.checkIfWon, this);
+                this.mixup = __bind(this.mixup, this);
+                this.places = [];
+                this.initialPlaces = [];
+                _ref = this.images;
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    image = _ref[_i];
+                    $('#previews').append('<img src="' + image + '" class="mini"/>');
+                }
+                this.image = this.images[0];
+                $('.mini').bind('click', function(event) {
+                    return _this.changeImage(event.target.src);
+                });
+                for (i = _j = 0; _j <= 7; i = ++_j) {
+                    x = Math.floor(i % 3) * 110;
+                    y = Math.floor(i / 3) * 110;
+                    t = new Tile(i, 110, 110, x, y, this.image);
+                    this.places.push(t);
+                }
+                this.places.push(new Blank(8));
+                this.initialPlaces = this.places.slice(0);
+                this.mixup();
             }
-            if(velocidad>50) {
-                document.getElementById("parar").disabled=false;
+
+            Puzzle.prototype.mixup = function() {
+                var blankpos, i, randomNum, _i, _results;
+                blankpos = 8;
+                _results = [];
+                for (i = _i = 0; _i <= 10; i = ++_i) {
+                    randomNum = Math.floor(Math.random() * 9);
+                    this.switchTwo(randomNum, blankpos);
+                    _results.push(blankpos = randomNum);
+                }
+                return _results;
+            };
+
+            Puzzle.prototype.checkIfWon = function() {
+                var i, _i;
+                for (i = _i = 0; _i <= 8; i = ++_i) {
+                    if (this.places[i] === this.initialPlaces[i]) {
+                        continue;
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            Puzzle.prototype.blankPosition = function() {
+                var place, pos, _i, _len, _ref;
+                _ref = this.places;
+                for (pos = _i = 0, _len = _ref.length; _i < _len; pos = ++_i) {
+                    place = _ref[pos];
+                    if (place["class"] === 'Blank') {
+                        return pos;
+                    }
+                }
+            };
+
+            Puzzle.prototype.renderBoard = function() {
+                var blank, t, _i, _len, _ref,
+                    _this = this;
+                blank = this.blankPosition();
+                $('#canvas').html('');
+                if (this.checkIfWon()) {
+                    $('#canvas').append('<span id="windiv"><img src="' + this.image + '"/><div class="banner"> You Won!</div></span>');
+                    return $('#windiv').show('slow');
+                } else {
+                    _ref = this.places;
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                        t = _ref[_i];
+                        t.show(blank);
+                    }
+                    return $('.clickable').bind('click', function(event) {
+                        var toSwitch;
+                        toSwitch = parseInt(event.target.id);
+                        return _this.switchTwo(toSwitch, _this.blankPosition());
+                    });
+                }
+            };
+
+            Puzzle.prototype.switchTwo = function(pos1, pos2) {
+                var x, y;
+                x = this.places[pos1];
+                y = this.places[pos2];
+                this.places[pos2] = x;
+                this.places[pos1] = y;
+                this.places[pos2].position = pos2;
+                return this.renderBoard();
+            };
+
+            Puzzle.prototype.changeImage = function(image) {
+                var panel, _i, _len, _ref;
+                this.image = image;
+                _ref = this.places;
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    panel = _ref[_i];
+                    if (panel["class"] !== 'Blank') {
+                        panel.image = image;
+                    }
+                }
+                return this.renderBoard();
+            };
+
+            return Puzzle;
+
+        })();
+
+        Tile = (function() {
+            function Tile(position, width, height, x, y, image) {
+                this.position = position;
+                this.width = width;
+                this.height = height;
+                this.x = x;
+                this.y = y;
+                this.image = image;
+                this["class"] = 'Tile';
             }
 
-            // Si la velocidad es inferior o igual a 0, paramos y nos posicionamos
-            // en el punto exacto de la siguiente imagen
-            if(velocidad<=3 && incremento<0) {
-                document.getElementById("parar").disabled=true;
-                clearInterval(interval1);
-                finalizarMovimiento();
+            Tile.prototype.show = function(blankPosition) {
+                if (this.isAdjacent(blankPosition)) {
+                    $('#canvas').append('<div id="' + this.position + '" class="innerSquare imageSquare clickable"></div>');
+                } else {
+                    $('#canvas').append('<div id="' + this.position + '" class="innerSquare imageSquare"></div>');
+                }
+                $("#" + this.position).css('background-position', '-' + this.x + 'px -' + this.y + 'px');
+                return $("#" + this.position).css('background-image', 'url(' + this.image + ')');
+            };
+
+            Tile.prototype.isAdjacent = function(blanksPosition) {
+                if (blanksPosition - 1 === this.position && (blanksPosition % 3) > 0 || blanksPosition + 1 === this.position && (blanksPosition % 3) < 2 || blanksPosition + 3 === this.position && (blanksPosition / 3) < 2 || blanksPosition - 3 === this.position && (blanksPosition / 3) > 0) {
+                    return true;
+                }
+                return false;
+            };
+
+            Tile.prototype.setImage = function(image) {
+                return this.image = image;
+            };
+
+            return Tile;
+
+        })();
+
+        Blank = (function() {
+            function Blank(position) {
+                this.position = position;
+                this["class"] = 'Blank';
             }
-            contador+=velocidad;
-        }, 50);
-    }
 
-    function parar() {
-        incremento=-3;
-    }
+            Blank.prototype.show = function() {
+                return $('#canvas').append('<div class="innerSquare blank"></div>');
+            };
 
-    // Función para finalizar el movimiento en un elemento centrado
-    function finalizarMovimiento() {
-        // obtenemos la posicion exacta de la imagen
-        pos = document.getElementById("slot").style.backgroundPosition;
-        pos = parseInt(pos.split(" ")[1]);
+            return Blank;
 
-        // obtenemos la posicion final donde parar para que quede la imagen
-        // bien encuadrada
-        var relativePos = pos%75;
-        var posicionFinal = pos-relativePos+75;
+        })();
 
-        // intervalo de tiempo hasta que se centra la imagen en el recuadro
-        interval2=setInterval(function() {
-            contador+=velocidad;
-            document.getElementById("slot").style["background-position"]="0% "+contador+"px";
-            if(contador>=posicionFinal)
-            {
-                clearInterval(interval2);
-                document.getElementById("slot").style["background-position"]="0% "+(posicionFinal)+"px";
-                document.getElementById("iniciar").disabled=false;
+        $(document).ready(function() {
+            var imgs, puzzle;
+            imgs = [
+                'img3.jpg',
+                'abuelia.jpg',
+                'img4.jpg',
+                'img5.jpg',
+                'img6.jpg',
+                'img7.jpg',
+                'img8.jpg'
+            ];
+            return puzzle = new Puzzle(imgs);
+        });
 
-                // obtenemos la posicion exacta de donde se ha parado dentro de la imagen
-                posicion=posicionFinal-(450*parseInt(posicionFinal/450));
-                document.getElementById("resultado").innerHTML=posicionFiguras[posicion];
-            }
-        }, 1);
-    }
+    }).call(this);
+
 </script>
 </body>
+
 </html>
