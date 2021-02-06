@@ -17,7 +17,17 @@
             background: linear-gradient(to bottom, #4c4c4c 0%, #1c1c1c 0%, #666666 0%, #595959 0%, #474747 0%, #131313 100%);
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4c4c4c", endColorstr="#131313", GradientType=0);
             background-repeat: no-repeat;
-
+            display: flex;
+            justify-content: center;
+        }
+        .text {
+            margin: auto;
+            color: white;
+            text-align: center;
+        }
+        .text img {
+            margin: auto auto auto 0;
+            width: 15px;
         }
         h1 {
             color: white;
@@ -26,9 +36,10 @@
             font-weight: 100;
             line-height: 50px;
             text-align: center;
+            margin: 0;
         }
         main {
-            margin: 2rem;
+            margin: auto;
         }
         #canvas {
             width: 336px;
@@ -82,7 +93,10 @@
 
 </head>
 <body>
-<h1>Feliz Cumpleaños abuelita </h1>
+<div class="text">
+    <h1>Feliz Cumpleaños abuelita </h1>
+    <span>Te Amamos Muchoo <img src="heart.png" alt=""></span>
+</div>
 <main>
     <div id="canvas"></div>
     <div id="previews"></div>
